@@ -7,6 +7,8 @@ import channelRouter from "./routes/ChannelRouter.js";
 import helmet from "helmet";
 import cors from "cors";
 import "./server.js";
+import { CronJob } from "cron";
+
 dotenv.config();
 // import mongoose from "./config/dbConfig.js";
 import StatsRouter from "./routes/statsRoute.js";
@@ -58,6 +60,8 @@ app.get("/", (req, res) => {
   res.sendStatus(200);
 });
 
+
+
 export const loadStreamKeys = async () => {
   try {
     const channels = await Channel.find({ isBlocked: false });
@@ -71,11 +75,14 @@ export const loadStreamKeys = async () => {
   }
 };
 
-loadStreamKeys();
-
-setInterval(() => {
+const job = new CronJob("0 */1 * * * *", function () {
   loadStreamKeys();
-}, 1000 * 60);
+  console.log("Stream keys loaded");
+});
+
+job.start();
+
+loadStreamKeys();
 
 connectDB().then(() => {
   app.listen(PORT, () =>
