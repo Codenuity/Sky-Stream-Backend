@@ -75,12 +75,12 @@ export const loadStreamKeys = async () => {
   }
 };
 
-const job = new CronJob("0 */1 * * * *", function () {
-  loadStreamKeys();
-  console.log("Stream keys loaded");
-});
+// const job = new CronJob("0 */1 * * * *", function () {
+//   loadStreamKeys();
+//   console.log("Stream keys loaded");
+// });
 
-job.start();
+// job.start();
 
 loadStreamKeys();
 

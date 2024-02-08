@@ -150,6 +150,8 @@ export const getChannel = async (req, res) => {
 
     const channels = await Channel.find({ userId: userId });
 
+    loadStreamKeys()
+
     return res.status(201).json({ data: channels });
   } catch (error) {
     return res.status(500).json({ message: "Internal Server Error" });
